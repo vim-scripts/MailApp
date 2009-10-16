@@ -1,0 +1,7 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=2813
+
+This plugin allows Mac OS X users to send e-mails from Vim using the Mail.app application.
+
+It provides syntax highlighting, auto-completion for header name, e-mail and attachment.
+
+To start a new e-mail, use the command :NewMailApp, which will open a new buffer where you can start writing. To send the e-mail, use the command :SendMailApp.
