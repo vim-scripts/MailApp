@@ -1,4 +1,4 @@
-*MailApp*     Send emails through Mail.app from Vim. v1.0
+*MailApp*     Send emails through Mail.app from Vim. v1.1
 
 
                           MAILAPP REFERENCE MANUAL *
@@ -316,6 +316,9 @@ be very pleased to read them.
  8. HISTORY                                                   *MailAppHistory*
 
   Version      Date      Release notes                                       ~
+|---------|------------|-----------------------------------------------------|
+    1.1     2009-10-19   Fixed a problem with the "from" header that would
+                         prevent the message from being sent.
 |---------|------------|-----------------------------------------------------|
     1.0     2009-10-07   First release.
 |---------|------------|-----------------------------------------------------|

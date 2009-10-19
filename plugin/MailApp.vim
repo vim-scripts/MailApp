@@ -1,6 +1,6 @@
 " ============================================================================
 " File:          MailApp.vim
-" Version:       1.0
+" Version:       1.1
 " Description:   This plugin allows Mac OS X users to send e-mails from Vim
 "			     using the Mail.app application.
 " Maintainer:    Israel Chauca F. <israelchauca@gmail.com>
@@ -13,6 +13,11 @@ endif
 
 let loaded_MailApp = 1
 
+function! s:debug(msg) " {{{
+	if exists("g:MailApp_debug")
+		echomsg "debug: " . a:msg
+	endif
+endfunction " }}}
 function! MailAppInit() " {{{
 	let s:command_name = "mailapp"
 	if !exists("g:MailApp_bundle")
@@ -57,17 +62,18 @@ endfunction " }}}
 function! s:ParseText() " {{{
 	for i in range(1, line('$'))
 		let curLine = getline(i)
+		call s:debug("curline: " . curLine)
 		if s:isBody
 			" Add body lines
 			let s:body = s:body . curLine . "\n"
-		elseif curLine =~? '^f\a:\s*'
+		elseif curLine =~? '^f\a*:\s*'
 			" from:
 			if s:from == ""
 				let s:from = substitute(curLine, '\c^f\a*:\s*',"","")
 			else
 				" only one from header should exist.
 				let s:ignored = 1
-				echomsg "MailApp: More than one 'from' line #" . line('.') . ": '" .  curLine . "'."
+				echomsg "MailApp: More than one 'from' line #" . i . ": '" .  curLine . "'."
 			endif
 		elseif curLine =~? '^t\a*:\s*'
 			" to:
@@ -97,7 +103,7 @@ function! s:ParseText() " {{{
 			else
 				" only one subject should exist
 				let s:ignored = 1
-				echomsg "MailApp: More than one 'subject' line #" . line('') . ": '" .  curLine . "'."
+				echomsg "MailApp: More than one 'subject' line #" . i . ": '" .  curLine . "'."
 			endif
 		elseif curLine =~? '^a\a*:\s*'
 			" attachment:
@@ -106,7 +112,7 @@ function! s:ParseText() " {{{
 			let s:isBody = 1
 		else
 				let s:ignored = 1
-				echomsg "MailApp: Line #" . line('.') . " doesn't seem to be properly formated: '" . curLine . "'."
+				echomsg "MailApp: Line #" . i . " doesn't seem to be properly formated: '" . curLine . "'."
 		endif
 	endfor
 	if s:from == "" && exists("g:mailApp_from")
